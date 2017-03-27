@@ -11,13 +11,20 @@ public class MainActivity extends AppCompatActivity {
     protected void resetLauncher() {
         this.getPackageManager().clearPackagePreferredActivities(this.getPackageName());
     }
+
+    //kiosk mode, disable back button
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //exit the launcher
         Button exitBn = (Button)findViewById(R.id.button);
-
         exitBn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,19 +1,15 @@
 package com.cute.cutelock;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
-import android.view.KeyEvent;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private void getfg() {
-
-
-
     }
     protected void resetLauncher() {
         this.getPackageManager().clearPackagePreferredActivities(this.getPackageName());
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         startBlockApps();
+
 
         //exit the launcher
         Button exitBn = (Button)findViewById(R.id.button);

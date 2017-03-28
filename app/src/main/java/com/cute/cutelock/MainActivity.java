@@ -35,13 +35,13 @@ public class MainActivity extends Activity {
         startLockTask();
         startBlockApps();
 
-
         //exit the launcher
         Button exitBn = (Button)findViewById(R.id.button);
         exitBn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 stopBlockApps();
+                stopLockTask();
                 resetLauncher();
                 finish();
                 //System.exit(0);

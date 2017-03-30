@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CuteLock</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="sample_device_admin_description">Lock screen </string><!-- 见图一 -->
+    <string name="sample_device_admin">Lock screen</string><!-- 见图一 -->
 </resources>

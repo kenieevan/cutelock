@@ -3,6 +3,7 @@ package com.cute.cutelock;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -11,6 +12,7 @@ import android.app.admin.DevicePolicyManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
+import android.content.Context;
 
 
 public class MainActivity extends Activity {
@@ -18,7 +20,7 @@ public class MainActivity extends Activity {
     private DevicePolicyManager dpm;
     private CheckBox cb_status;
     private ComponentName mDeviceAdminSample;
-
+    private PackageManager pm;
     protected void resetLauncher() {
         this.getPackageManager().clearPackagePreferredActivities(this.getPackageName());
     }
@@ -44,6 +46,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         //startLockTask();
         //startBlockApps();
+        pm = this.getPackageManager();
 
         //exit the launcher
         Button exitBn = (Button)findViewById(R.id.button);
@@ -52,9 +55,13 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
               //  stopBlockApps();
           //      stopLockTask();
-                resetLauncher();
-                finish();
+           //     resetLauncher();
+             //   finish();
                 //System.exit(0);
+
+        //debug...  launcher app to enter lock mode
+                Intent it = pm.getLaunchIntentForPackage("com.android.contacts");
+                startActivity(it);
             }
         });
 
@@ -72,6 +79,11 @@ public class MainActivity extends Activity {
                    * 所以要等打开的Activity关闭后的回调函数里去判断是否真正激活,再对CheckBox状态进行改变
                    */
         startActivityForResult(intent, 0);
+
+        String contactName = "com.android.contacts";
+        String[] pkgs = {contactName};
+        dpm.setLockTaskPackages(mDeviceAdminSample, pkgs);
+        dpm.lockNow();
 
 //        cb_status.setOnCheckedChangeListener(new OnCheckedChangeListener() {//多选框勾选状态改变的监听器
 //            @Override

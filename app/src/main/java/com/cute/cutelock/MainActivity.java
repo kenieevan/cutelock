@@ -14,8 +14,14 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.CompoundButton;
 import android.content.Context;
 
+import java.lang.reflect.Method;
+
 
 public class MainActivity extends Activity {
+
+    public static final int DISABLE_EXPAND = 0x00010000;//4.2以上的整形标识
+    public static final int DISABLE_EXPAND_LOW = 0x00000001;//4.2以下的整形标识
+    public static final int DISABLE_NONE = 0x00000000;//取消StatusBar所有disable属性，即还原到最最原始状态
 
     private DevicePolicyManager dpm;
     private CheckBox cb_status;
@@ -80,10 +86,21 @@ public class MainActivity extends Activity {
                    */
         startActivityForResult(intent, 0);
 
-        String contactName = "com.android.contacts";
-        String[] pkgs = {contactName};
-        dpm.setLockTaskPackages(mDeviceAdminSample, pkgs);
-        dpm.lockNow();
+        Object service = getSystemService("statusbar");
+        try {
+            Class<?> statusBarManager = Class.forName
+                    ("android.app.StatusBarManager");
+            Method expand = statusBarManager.getMethod("disable", int.class);
+            expand.invoke(service, DISABLE_EXPAND);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //String contactName = "com.android.contacts";
+        //String[] pkgs = {contactName};
+        //dpm.setLockTaskPackages(mDeviceAdminSample, pkgs);
+        //dpm.lockNow();
 
 //        cb_status.setOnCheckedChangeListener(new OnCheckedChangeListener() {//多选框勾选状态改变的监听器
 //            @Override
